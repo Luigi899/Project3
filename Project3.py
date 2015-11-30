@@ -6,6 +6,7 @@
 
 #Required: Libraries
 from PIL import Image
+import PIL.ImageOps
 import getpass
 
 #Definition to encode message into image
@@ -20,7 +21,7 @@ def encode_message(img, msg):
         print("Image needs to be in RBG mode.")
         return False'''
     
-    #Creating image copy to encode
+    #Create image copy to encode
     encoded = img.copy()
     width, height = img.size
     counter = 0
@@ -48,7 +49,8 @@ def encode_message(img, msg):
 
 #Whatever image we decide to use converted to .bmp
 ori_img = "secret.bmp"
-img = Image.open(ori_img)
+img_src = Image.open(ori_img)
+img = PIL.ImageOps.invert(img_src)
 enc_img = "enc_" + ori_img
 
 #Definition to decode message from image
@@ -102,7 +104,8 @@ if img_encoded:
     print("{} saved!".format(enc_img))
     
     #View the saved file, works with Windows only
-    os.startfile(enc_img)
+    #os.startfile(msgName) #view html file
+    #os.startfile(enc_img) #view image file
     
     viewmsg = input("Do you want to decode the message? [y/n]")
     while viewmsg:
