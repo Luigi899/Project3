@@ -16,9 +16,9 @@ def encode_message(img, msg):
     if(length>255):
         print("The message is too long. Keep it under 255 characters.")
         return False
-    if(img.mode != "RGB"):
+    '''if(img.mode != "RGB"):
         print("Image needs to be in RBG mode.")
-        return False
+        return False'''
     
     #Creating image copy to encode
     encoded = img.copy()
@@ -76,8 +76,23 @@ return msg
 
 #Set message to encode into image
 msg = getpass.getpass("Set message: ")
+savemsg = input("\nSave message to file? [y/n] ")
+while savemsg:
+    if (savemsg == "y") | (savemsg == "yes"):
+        msgName = str(input("Name the text file: ")) + ".html"
+        msgFile = open(msgName, "w")#File that will be create if does not already exist
+        msgFile.write('<img src="enc_secret.bmp" /><p>' + msg + '</p>')#Write message
+        msgFile.close()
+        print(msgName + " successfully created.\n")
+        break
+    elif (savemsg == "n") | (savemsg == "no"):
+        break
+    else:
+        savemsg = input("\nSave message to text file? [y/n] ")
+
 #Set password to get decoded message
 mypassword = getpass.getpass('Set password: ')
+print("Encoding messasge..\n")
 
 img_encoded = encode_message(img,msg)
 if img_encoded:
@@ -89,15 +104,25 @@ if img_encoded:
     #View the saved file, works with Windows only
     os.startfile(enc_img)
     
-    #Password Feature
-    password = getpass.getpass("Enter password: ")
-    
-    while(password!=mypassword):
-        print("Wrong password!\nTry again.")
-        password = getpass.getpass("Enter password: ")
-    
-    if(password==mypassword):
-        img2 = Image.open(enc_img)
-        secret_msg = decode_message(img2)
-        print("Secret Message: " + secret_msg)
-        input("Press enter to exit.")
+    viewmsg = input("Do you want to decode the message? [y/n]")
+    while viewmsg:
+        if (viewmsg == "y") | (viewmsg == "yes") | (viewmsg == "sure"):
+            #Password Feature
+            password = getpass.getpass("\nEnter password: ")
+            print("Decoding messasge..\n")
+            
+            while(password!=mypassword):
+                print("Wrong password!\nTry again.")
+                password = getpass.getpass("Enter password: ")
+            
+            if(password==mypassword):
+                img2 = Image.open(enc_img)
+                secret_msg = decode_message(img2)
+                print("Secret Message: " + secret_msg)
+                break
+        elif (viewmsg == "n") | (viewmsg == "no") | (viewmsg == "nah"):
+            break
+        else:
+            viewmsg = input("Do you want to decode the message? [y/n]")
+
+input("Press enter to exit.")
