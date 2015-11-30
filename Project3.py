@@ -52,7 +52,14 @@ def encode_message(img, msg):
 ori_img = "secret.bmp"
 img1 = Image.open(ori_img)
 img2 = PIL.ImageOps.invert(img1)
-img = img2.filter(ImageFilter.BLUR)
+img3 = img2.filter(ImageFilter.BLUR)
+
+#Resizing image
+basewidth = 300
+wpercent = (basewidth / float(img3.size[0]))
+hsize = int((float(img3.size[1]) * float(wpercent)))
+img = img3.resize((basewidth, hsize), PIL.Image.ANTIALIAS)
+
 enc_img = "enc_" + ori_img
 
 #Definition to decode message from image
