@@ -83,7 +83,7 @@ def decode_message(img):
                 #Change r(ASCII) value to a character and add it to msg
                 msg += chr(r)
             counter += 1
-return msg
+        return msg
 
 #Set message to encode into image
 msg = getpass.getpass("Set message: ")
@@ -92,7 +92,7 @@ while savemsg:
     if (savemsg == "y") | (savemsg == "yes"):
         msgName = str(input("Name the text file: ")) + ".html"
         msgFile = open(msgName, "w")#File that will be create if does not already exist
-        msgFile.write('<img src="enc_secret.bmp" /><p>' + msg + '</p>')#Write message
+        msgFile.write('<img src="enc_secret.bmp" /><p><b>Secret Message:</b> ' + msg + '</p>')#Write message
         msgFile.close()
         print(msgName + " successfully created.\n")
         break
